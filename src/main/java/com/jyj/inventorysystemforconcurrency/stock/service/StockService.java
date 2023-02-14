@@ -21,5 +21,8 @@ public class StockService {
     public synchronized void decrease(final long id, final long amount) {
         Stock stock = stockRepository.findById(id).orElseThrow();
         stock.decrease(amount);
+
+        // @Transactional 어노테이션을 제거했으므로 repository에서 수동으로 flush 해줘야 데이터베이스에 반영됨
+        stockRepository.saveAndFlush(stock);
     }
 }
