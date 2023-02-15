@@ -1,7 +1,14 @@
 ## 데이터베이스를 활용하여 레이스 컨디션 해결해보기
+JPA의 영속성 컨텍스트를 적절히 활용하면 DB 트랙잭션이 `READ COMMITTED` 격리 수준이어도 애플리케이션 레벨에서 `REPEATABLE READ` 가 가능하다.
+
+JPA는 DB 트랜잭션 격리 수준을 `READ COMMITTED` 정도로 가정한다.
+
+만약 일부 로직에 더 높은 격리 수준이 필요하면 낙관적 락과 비관적 락 중 하나를 사용하면 된다.
+
 1. Pessimistic Lock (Exclusive lock)
    * 실제로 데이터에 lock을 걸어서 정합성을 맞추는 방법
    * 어떤 트랜잭션이 Exclusice lock을 걸게 되면 다른 트랜잭션은 lock이 해제되기 전까지 특정 row의 lock을 얻을 수 없음
+     <br/>![img.png](./image/img_09.png)
       * A 트랜잭션이 끝날 때까지 기다렸다가 B 트랜잭션이 lock을 획득
    * 특정 row를 update 하거나 delete 할 수 있다.
    * 일반 select 는 별다른 lock이 없기 때문에 가능
