@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StockServiceFacade {
 
-    private StockServiceWithOptimisticLock stockService;
+    private final StockServiceWithOptimisticLock stockService;
 
     public void decrease(final long id, final long quantity) throws InterruptedException {
         while (true) {

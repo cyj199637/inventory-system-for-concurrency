@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class StockServiceWithOptimisticLock {
 
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     @Transactional
     public void decrease(final long id, final long amount) {
