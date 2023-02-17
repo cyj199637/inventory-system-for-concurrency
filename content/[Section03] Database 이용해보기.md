@@ -42,6 +42,16 @@ JPA는 DB 트랜잭션 격리 수준을 `READ COMMITTED` 정도로 가정한다.
 3. Named Lock
    * 고유한 이름을 식별되는 잠금 (MySQL 에서만 제공)
      * https://dev.mysql.com/doc/refman/8.0/en/metadata-locking.html
-   * 이름을 가진 lock을 획득한 후 해제할 때까지 다른 세션에서는 lock을 획득하거나 해제할 수 없다.
-   * 트랜잭션이 종료될 때 lock이 자동으로 해제되지 않으므로 별도의 명령어를 통해 해제하거나 선점 시간이 끝나야 해제된다.
-   * Pessimistic Lock과 비슷하지만 Pessimistic Lock에서 다루는 데이터 단위는 row나 테이블 정도인 반면 Named Lock은 테이블 뿐만 아니라 스키마, 저장된 프로그램(프로시저, 함수, 트리거, 예약된 이벤트), `GET_LOCK()` 함수로 획득한 사용자 잠금, locking service로 획득한 잠금도 포함된다.  
+   * 이름을 가진 락을 획득한 후 해제할 때까지 다른 세션에서는 락을 획득하거나 해제할 수 없다.
+   * 트랜잭션이 종료될 때 락이 자동으로 해제되지 않으므로 별도의 명령어를 통해 해제하거나 선점 시간이 끝나야 해제된다.
+   * Pessimistic Lock과 비슷하지만 Pessimistic Lock에서 다루는 데이터 단위는 로우나 테이블 정도인 반면 Named Lock은 테이블 뿐만 아니라 스키마, 저장된 프로그램(프로시저, 함수, 트리거, 예약된 이벤트), `GET_LOCK()` 함수로 획득한 사용자 잠금, locking service로 획득한 잠금도 포함된다.
+   * `GET_LOCK()` 함수로 획득하고 `RELEASE_LOCK()` 함수로 해제한다.
+   * 주로 분산 락을 구현할 때 사용한다.
+   * Pessimistic Lock보다 타임아웃을 구현하기 쉽다.
+   * 하지만 실제로 구현하기에는 어렵다.
+
+    <br/>
+
+   ![img.png](./image/img_12.png)
+   * Named Lock은 타겟 로우나 테이블이 아닌 별도의 공간에 락을 건다.
+   * A 세션이 1 이라는 이름으로 Named Lock을 얻게 되면 다른 세션은 A 세션이 락을 해제할 때까지 사용하지 못한다.  

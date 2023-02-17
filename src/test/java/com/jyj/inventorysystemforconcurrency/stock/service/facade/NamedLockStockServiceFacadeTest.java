@@ -1,6 +1,7 @@
 package com.jyj.inventorysystemforconcurrency.stock.service.facade;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.jyj.inventorysystemforconcurrency.domain.Stock;
 import com.jyj.inventorysystemforconcurrency.domain.repository.StockRepository;
@@ -28,10 +29,10 @@ import org.springframework.test.context.jdbc.SqlGroup;
     }
 )
 @SpringBootTest
-class StockServiceFacadeTest {
+class NamedLockStockServiceFacadeTest {
 
     @Autowired
-    private OptimisticLockStockServiceFacade optimisticLockStockServiceFacade;
+    private NamedLockStockServiceFacade namedLockStockServiceFacade;
 
     @Autowired
     private StockRepository stockRepository;
@@ -46,9 +47,7 @@ class StockServiceFacadeTest {
         for (int i = 0; i < totalThreadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    optimisticLockStockServiceFacade.decrease(1L, 1L);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    namedLockStockServiceFacade.decrease(1L, 1L);
                 } finally {
                     countDownLatch.countDown();
                 }

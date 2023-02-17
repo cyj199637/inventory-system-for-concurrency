@@ -4,6 +4,7 @@ import com.jyj.inventorysystemforconcurrency.domain.Stock;
 import com.jyj.inventorysystemforconcurrency.domain.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -29,6 +30,12 @@ public class StockService {
     @Transactional
     public void decreaseWithPessimisticLock(final long id, final long amount) {
         Stock stock = stockRepository.findByIdWithPessimisticLock(id).orElseThrow();
+        stock.decrease(amount);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void decreaseWithNamedLock(final long id, final long amount) {
+        Stock stock = stockRepository.findById(id).orElseThrow();
         stock.decrease(amount);
     }
 }

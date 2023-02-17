@@ -1,14 +1,14 @@
 package com.jyj.inventorysystemforconcurrency.stock.service.facade;
 
-import com.jyj.inventorysystemforconcurrency.stock.service.StockServiceWithOptimisticLock;
+import com.jyj.inventorysystemforconcurrency.stock.service.OptimisticLockStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StockServiceFacade {
+public class OptimisticLockStockServiceFacade {
 
-    private final StockServiceWithOptimisticLock stockService;
+    private final OptimisticLockStockService stockService;
 
     public void decrease(final long id, final long quantity) throws InterruptedException {
         while (true) {
