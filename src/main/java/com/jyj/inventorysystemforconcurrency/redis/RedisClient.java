@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RedisClient {
 
-    private final static String DEFAULT_VALUE = "lock";
-    private final static Duration DEFAULT_TIMEOUT = Duration.ofMillis(3_000);
+    private static final String DEFAULT_VALUE = "lock";
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofMillis(3_000);
 
     private final RedisTemplate<String ,String> redisTemplate;
 
