@@ -18,8 +18,13 @@ public class StockService {
         return stockRepository.findById(id).orElseThrow(() -> new RuntimeException("존재하지 않는 재고입니다."));
     }
 
-//    @Transactional
+    @Transactional
     public synchronized void decrease(final long id, final long amount) {
+        Stock stock = stockRepository.findById(id).orElseThrow();
+        stock.decrease(amount);
+    }
+
+    public synchronized void decreaseWithSynchronized(final long id, final long amount) {
         Stock stock = stockRepository.findById(id).orElseThrow();
         stock.decrease(amount);
 

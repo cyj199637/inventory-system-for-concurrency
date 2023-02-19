@@ -9,7 +9,8 @@ Redis를 활용하여 분산 락을 구현할 때 사용하는 라이브러리�
 
 ### Lettuce
 * setnx 명령어를 활용하여 분산 락 구현
-  * setnx 명령어는 expire time을 설정할 수 없기 때문에 락의 타임 아웃 로직은 직접 구현해야 한다. 
+  * setnx 명령어는 expire time을 설정할 수 없기 때문에 락의 타임 아웃 로직은 직접 구현해야 한다.
+  * MySQL의 `GET_LOCK` 함수와 비슷하지만 MySQL과 다르게 세션 관리를 따로 하지 않아도 된다.
 * 스핀 락 방식으로 개발자가 직접 retry 로직을 구현해야 한다.
   * 스핀 락
     <br/>![img.png](./image/img_13.png)
