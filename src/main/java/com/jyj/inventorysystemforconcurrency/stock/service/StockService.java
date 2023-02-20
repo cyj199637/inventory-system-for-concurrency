@@ -38,6 +38,8 @@ public class StockService {
         stock.decrease(amount);
     }
 
+    // 락을 해제하기 전에 데이터베이스에 커밋하기 위해 부모 트랜잭션과 분리
+    // (부모 트랜잭션과 동일한 범위로 묶인다면 synchronized와 같은 문제 발생)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void decreaseWithNamedLock(final long id, final long amount) {
         Stock stock = stockRepository.findById(id).orElseThrow();
